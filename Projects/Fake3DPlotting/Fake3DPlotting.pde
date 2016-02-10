@@ -25,17 +25,18 @@ void draw()
 
 float f(float x, float y)
 {
-  /*
-  x = x*3;
-  y = y*2;
+
+  x = x/3;
+  y = y/2;
   x = x*PI*2/360;
   y = y*PI*2/360;
       
   return (sin(x*.1)*cos(y) + sin(y*.2)*cos(x*.3))*.25 + cos(x)*sin(y)*.25 + .5;
-  */
   
+  /*
   return pow(pow((width*.25 + height*.75 - x - y),2)*
              pow((width*.75 + height*.25 - x - y),2)*pow((x + y),2)/width/width/height/height/width/height*8,2);
+             */
 }
 
 // Normalizes the cache and draws it to the screen.
@@ -51,13 +52,21 @@ void renderFunction(PImage image)
      // Compute the image signal value.
      float val_f = (constrain(f(col, row), 0, 1)*255);
      
+     /*
+     float val_f = f(col, row);
+     float val_dx = f(col + 1, row) - val_f;
+     float val_dy = f(col, row + 1) - val_f;
+     */
+     
+     //val_f = sqrt(val_dx*val_dx + val_dy*val_dy)*100*5*255;
+     
      // Make the level sets stand out by post proccessing the function.
      int half = 255/2;
-     int bin_size = 2;
+     int bin_size = 10;
      int val = (int)(val_f/bin_size)*bin_size;//(int)(half*cos(val_f*.1)) + half;
         
      int pixel_index = row*width + col;
-     val = val*4;
+     
      //image.pixels[pixel_index] = color(val/4, (val + 100) % 255, (val + 200) % 255, 255);
      image.pixels[pixel_index] = color(val, val, val, 255);
     
