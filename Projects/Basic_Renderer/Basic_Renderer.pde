@@ -6,10 +6,11 @@ void setup()
   // my computer’s screen.
   //fullScreen();
   // Or use some custom dimensions.
-  size(255, 255);
+  //size(255, 255);
+  size(1000, 1000);
   myImage = createImage(width, height, ARGB);
   g = createGraphics(width, height);
-  
+
 }
 
 void draw()
@@ -91,7 +92,51 @@ color evaluateImageFunction(float x, float y)
   return color(val, val, val, 255);
   //*/
   
+  /*
   int val = (int)(x / ((y+1)/255.0));
   return color(val, val, val, 255);
+  */
+  
+  x -= width/2;
+  y -= height/2;
+  
+  // y coordinate is now reversed.
+  y*= -1;
+  y -= height/4;
+  y += height/15;
+  
+
+  float angle = atan2(y, x);
+  float r0 = dist(0, 0, x, y);
+ 
+
+  
+  float r = 2 - 2*sin(angle) + sin(angle)*sqrt(abs(cos(angle)))/(sin(angle) + 1.4);
+  
+  //r += sin(angle);
+    
+  //r += sin(angle);
+  
+  float val = (r*100 - r0)*2;// + sin(abs(x)/500*PI - PI/2)*50;
+  if(val > 100)
+  {
+    val = 100;
+  }
+  val = abs(val);
+  
+  val = max(min(val/500*255,255), 0);
+  
+  
+  
+  int bin = 15;
+  val = (int)val / bin * bin;
+  
+  int opacity = 255;
+  if(val > 250)
+  {
+    opacity = 0;
+  }
+  
+  return color(val*2, val, val, opacity);
   
 }
